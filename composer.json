@@ -1,6 +1,6 @@
 {
     "name": "jegex/filament-translatable",
-    "description": "This is my package filament-translatable",
+    "description": "Translation component for Filament PHP.",
     "keywords": [
         "jegex",
         "laravel",
@@ -22,22 +22,26 @@
             "role": "Developer"
         }
     ],
+    "suggest": {
+        "spatie/laravel-translatable": "For handling translations in Laravel using JSON fields.",
+        "astrotomic/laravel-translatable": "Alternative way for handling translations in Laravel using separate database tables."
+    },
     "require": {
         "php": "^8.2",
-        "filament/filament": "^5.0",
+        "filament/filament": "^4.3.1|^5.0",
         "spatie/laravel-package-tools": "^1.15.0"
     },
     "require-dev": {
+        "astrotomic/laravel-translatable": "^11.17",
+        "driftingly/rector-laravel": "^2.3",
         "larastan/larastan": "^3.0",
         "laravel/pint": "^1.0",
-        "nunomaduro/collision": "^8.0",
         "orchestra/testbench": "^9.0|^10.0",
         "pestphp/pest": "^3.7|^4.0",
-        "pestphp/pest-plugin-arch": "^3.0|^4.0",
         "pestphp/pest-plugin-laravel": "^3.0|^4.0",
         "pestphp/pest-plugin-livewire": "^3.0|^4.0",
-        "rector/rector": "^2.0",
-        "spatie/laravel-ray": "^1.26"
+        "rector/rector": "^2.4",
+        "spatie/laravel-translatable": "^6.13"
     },
     "autoload": {
         "psr-4": {
@@ -47,17 +51,17 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Jegex\\FilamentTranslatable\\Tests\\": "tests/"
+            "Jegex\\FilamentTranslatable\\Tests\\": "tests/src"
         }
     },
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
-        "analyse": "phpstan analyse",
-        "lint": "pint",
-        "refactor": "rector",
-        "test": "pest",
-        "test:lint": "pint --test",
-        "test:refactor": "rector --dry-run"
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint",
+        "refactor": "vendor/bin/rector",
+        "refactor:dry-run": "vendor/bin/rector --dry-run"
     },
     "extra": {
         "laravel": {
@@ -77,6 +81,6 @@
             "phpstan/extension-installer": true
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

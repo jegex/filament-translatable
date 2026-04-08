@@ -9,12 +9,10 @@ use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Filesystem\Filesystem;
-use Livewire\Features\SupportTesting\Testable;
+use Jegex\FilamentTranslatable\Commands\FilamentTranslatableCommand;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Jegex\FilamentTranslatable\Commands\FilamentTranslatableCommand;
-use Jegex\FilamentTranslatable\Testing\TestsFilamentTranslatable;
 
 class FilamentTranslatableServiceProvider extends PackageServiceProvider
 {
@@ -31,7 +29,7 @@ class FilamentTranslatableServiceProvider extends PackageServiceProvider
          */
         $package->name(static::$name)
             ->hasCommands($this->getCommands())
-            ->hasInstallCommand(function (InstallCommand $command) {
+            ->hasInstallCommand(function (InstallCommand $command): void {
                 $command
                     ->publishConfigFile()
                     ->publishMigrations()
@@ -84,9 +82,6 @@ class FilamentTranslatableServiceProvider extends PackageServiceProvider
                 ], 'filament-translatable-stubs');
             }
         }
-
-        // Testing
-        Testable::mixin(new TestsFilamentTranslatable);
     }
 
     protected function getAssetPackageName(): ?string
