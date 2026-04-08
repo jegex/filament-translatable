@@ -15,6 +15,7 @@
     $isCloneable = $isCloneable();
     $isDeletable = $isDeletable();
     $isReorderableWithButtons = $isReorderableWithButtons();
+    $isReorderableWithDragAndDrop = $isReorderableWithDragAndDrop();
 
     $key = $getKey();
     $statePath = $getStatePath();
@@ -52,11 +53,11 @@
             :contained="$isContained"
             :vertical="$isVertical"
             x-bind:style="!isScrollable && {'flex-wrap': 'wrap'}"
-            x-sortable
         >
             @foreach ($items as $itemKey => $item)
                 @php
-                    $itemLabel = $getItemLabel($itemKey);
+                    $locale = $getLocales()[$itemKey] ?? new \Jegex\FilamentTranslatable\Dto\Locale($itemKey);
+                    $itemLabel = $getLocaleLabel($locale);
                     $visibleExtraItemActions = array_filter(
                         $extraItemActions,
                         fn ($action): bool => $action(['item' => $itemKey])->isVisible(),
@@ -79,8 +80,6 @@
                     alpineActive="activeTab === '{{ $itemKey }}'"
                     wire:ignore.self
                     wire:key="{{ $item->getLivewireKey() }}.item"
-                    x-sortable-item="{{ $itemKey }}"
-                    x-sortable-handle
                 >
                     @if (filled($itemLabel))
                         <span>
@@ -95,23 +94,16 @@
                         </span>
                     @endif
                     @if ($moveUpActionIsVisible || $moveDownActionIsVisible || $cloneActionIsVisible || $deleteActionIsVisible || $visibleExtraItemActions)
-                        <span
-                            x-on:click.stop
-                        >
+                        <span x-on:click.stop style="display: flex;align-items: center;gap: 0.25rem">
                             @foreach ($visibleExtraItemActions as $extraItemAction)
                                 {{ $extraItemAction(['item' => $itemKey]) }}
                             @endforeach
-
-                            @if ($moveUpActionIsVisible || $moveDownActionIsVisible)
-                                {{ $moveUpAction }}
-                                {{ $moveDownAction }}
-                            @endif
 
                             @if ($cloneActionIsVisible)
                                 {{ $cloneAction }}
                             @endif
 
-                            @if ($deleteActionIsVisible)
+                            @if ($deleteActionIsVisible && $itemKey !== $getDefaultLocale())
                                 {{ $deleteAction }}
                             @endif
                         </span>

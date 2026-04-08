@@ -50,6 +50,12 @@ class FilamentTranslatableServiceProvider extends PackageServiceProvider
         if (file_exists($package->basePath('/../resources/views'))) {
             $package->hasViews(static::$viewNamespace);
         }
+
+        if (file_exists($package->basePath('/../resources/flags'))) {
+            $this->publishes([
+                __DIR__ . '/../resources/flags' => public_path('vendor/filament-translatable/flags'),
+            ], 'public');
+        }
     }
 
     public function packageRegistered(): void {}
