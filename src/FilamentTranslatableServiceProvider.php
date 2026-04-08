@@ -43,10 +43,6 @@ class FilamentTranslatableServiceProvider extends PackageServiceProvider
             $package->hasConfigFile();
         }
 
-        if (file_exists($package->basePath('/../database/migrations'))) {
-            $package->hasMigrations($this->getMigrations());
-        }
-
         if (file_exists($package->basePath('/../resources/lang'))) {
             $package->hasTranslations();
         }
@@ -96,7 +92,7 @@ class FilamentTranslatableServiceProvider extends PackageServiceProvider
     {
         return [
             // AlpineComponent::make('filament-translatable', __DIR__ . '/../resources/dist/components/filament-translatable.js'),
-            // Css::make('filament-translatable-styles', __DIR__ . '/../resources/dist/filament-translatable.css'),
+            Css::make('filament-translatable-styles', __DIR__ . '/../resources/dist/filament-translatable.css'),
             // Js::make('filament-translatable-scripts', __DIR__ . '/../resources/dist/filament-translatable.js'),
         ];
     }
@@ -133,15 +129,5 @@ class FilamentTranslatableServiceProvider extends PackageServiceProvider
     protected function getScriptData(): array
     {
         return [];
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function getMigrations(): array
-    {
-        return [
-            'create_filament-translatable_table',
-        ];
     }
 }

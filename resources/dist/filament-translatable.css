@@ -1,0 +1,1 @@
+.fi-tab-repeater .fi-tabs-item-label{align-items:center;cursor:pointer;display:flex;gap:.5rem;user-select:none}.fi-tab-repeater.fi-vertical .fi-tabs-item-label{gap:1rem;justify-content:space-between;width:100%}.fi-tab-repeater.fi-vertical:not(:has(.fi-empty-state)) .fi-tabs-item-label>button{width:100%}
