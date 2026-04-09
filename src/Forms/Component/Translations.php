@@ -33,8 +33,6 @@ class Translations extends Repeater
 
     /**
      * @var null|Closure|array<string>|Collection<int,string>
-     */
-    protected null | Closure | array | Collection $exclude = [];
 
     /**
      * @var null|Closure|array<string,string>|Collection<string,string>
@@ -156,16 +154,6 @@ class Translations extends Repeater
         $this->hasDefaultState = true;
 
         $this->shouldMergeHydratedDefaultStateWithItemsStateAfterStateHydrated = true;
-
-        return $this;
-    }
-
-    /**
-     * @param  Closure|array<string>|Collection<int,string>  $exclude
-     */
-    public function exclude(Closure | array | Collection $exclude): static
-    {
-        $this->exclude = $exclude;
 
         return $this;
     }

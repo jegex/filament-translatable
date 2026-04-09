@@ -1,87 +1,129 @@
-# This is my package filament-translatable
+# Filament Translatable (Spatie & Astrotomic)
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/jegex/filament-translatable.svg?style=flat-square)](https://packagist.org/packages/jegex/filament-translatable)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/jegex/filament-translatable/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/jegex/filament-translatable/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/jegex/filament-translatable/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/jegex/filament-translatable/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/jegex/filament-translatable.svg?style=flat-square)](https://packagist.org/packages/jegex/filament-translatable)
 
+Filament Translatable adalah paket Laravel untuk Filament yang menambahkan dukungan terjemahan untuk konten panel admin. Paket ini memudahkan Anda menerjemahkan label, teks antarmuka, dan konten dinamis dalam Filament dengan dua pendekatan terkemuka: Spatie Translatable atau Astrotomic/Translatable.
 
+Fitur utama
+- Mendukung dua mode terjemahan: Spatie dan Astrotomic (Enum TranslationMode)
+- Editor terjemahan berbasis Repeater dengan UI Tabs per locale; tab akan menampilkan bahasa yang tersedia dan bisa ditambahkan melalui tab yang ada
+- Definisikan locales secara fleksibel (array/list atau via plugin)
+- Label locale dengan bendera (opsional) dan ukuran bendera dapat dikonfigurasi
+- Opsi untuk menampilkan nama locale atau hanya kode locales di label
+- Kemampuan default locale dan exclusion of certain locales
+- Konfigurasi paket melalui publishable config, migrations, dan views
+- Integrasi asset Filament (CSS) agar tampilan konsisten
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Prerequisites: Pastikan proyek Anda menggunakan Filament v4+, dan Anda sudah menyiapkan package-provider serta mendorong konfigurasi terjemahan pada model Anda (Spatie atau Astrotomic).
 
-## Installation
+## Instalasi
 
-You can install the package via composer:
+Anda bisa menginstal paket melalui Composer:
 
 ```bash
 composer require jegex/filament-translatable
 ```
 
-> [!IMPORTANT]
-> If you have not set up a custom theme and are using Filament Panels follow the instructions in the [Filament Docs](https://filamentphp.com/docs/4.x/styling/overview#creating-a-custom-theme) first.
+Jika Anda menggunakan tema khusus Filament Panels, ikuti instruksi styling pada dokumentasi Filament terlebih dahulu.
 
-After setting up a custom theme add the plugin's views to your theme css file or your app's css file if using the standalone packages.
-
-```css
-@source '../../../../vendor/jegex/filament-translatable/resources/**/*.blade.php';
-```
-
-You can publish and run the migrations with:
+Menyertakan asset dan publishable resources
+- Anda bisa publish migrations, config, dan views jika diperlukan:
 
 ```bash
 php artisan vendor:publish --tag="filament-translatable-migrations"
 php artisan migrate
-```
 
-You can publish the config file with:
-
-```bash
 php artisan vendor:publish --tag="filament-translatable-config"
-```
 
-Optionally, you can publish the views using
-
-```bash
 php artisan vendor:publish --tag="filament-translatable-views"
 ```
 
-This is the contents of the published config file:
+Secara default paket juga mendaftarkan CSS untuk gaya komponen translatable Filament. Sesuaikan dengan cara Anda mengintegrasikan CSS di tema Anda.
+
+## Konfigurasi
+
+Setelah publish, Anda bisa menyesuaikan konfigurasi di config/filament-translatable.php. Contoh konfigurasi minimal:
 
 ```php
 return [
+    // Locales yang didukung, format bisa berupa:
+    // ['en' => 'English', 'fr' => 'Français']
+    'locales' => [
+        'en' => 'English',
+        'fr' => 'Français',
+        'es' => 'Español',
+    ],
+
+    // Locale default
+    'default_locale' => 'en',
+
+    // Mode terjemahan: 
+    // 
+    // Jegex\FilamentTranslatable\Enums\TranslationMode::Spatie
+    // atau
+    // Jegex\FilamentTranslatable\Enums\TranslationMode::Astrotomic
+    'translation_mode' => \Jegex\FilamentTranslatable\Enums\TranslationMode::Spatie,
+    
+    // Flags/Names di label locale (opsional)
+    'display_flags_in_locale_labels' => false,
+    'display_names_in_locale_labels' => true,
+    'flag_width' => '24px',
 ];
 ```
 
-## Usage
+Pastikan Anda menyesuaikan transformasi data di model Anda sesuai dengan package terjemahan yang Anda pakai (Spatie atau Astrotomic).
+
+## Penggunaan (Contoh Filament Form)
+
+- Editor terjemahan menggunakan Repeater dengan UI Tabs per locale. Setiap tab mewakili satu locale yang tersedia, dan Anda bisa menambahkan bahasa baru melalui tab yang ada (Add Locale) pada repeater.
+
+Gunakan komponen Translations dalam schema form Filament Anda untuk memasukkan terjemahan per locale. Contoh:
 
 ```php
-$filamentTranslatable = new Jegex\FilamentTranslatable();
-echo $filamentTranslatable->echoPhrase('Hello, Jegex!');
+use Jegex\FilamentTranslatable\Forms\Component\Translations;
+use Jegex\FilamentTranslatable\Enums\TranslationMode;
+
+// dalam getForm(Form $form): Form
+return $form
+    ->schema([
+        Translations::make('translations')
+            -> locales([
+                'en' => 'English',
+                'fr' => 'Français',
+                'de' => 'Deutsch',
+            ])
+            -> translationMode(TranslationMode::Astrotomic) // atau TranslationMode::Spatie
+            -> defaultLocale('en')
+            -> displayFlagsInLocaleLabels(true)
+            -> flagWidth('20px'),
+    ]);
 ```
 
-## Testing
+Catatan:
+- Jika Anda menggunakan Astrotomic, model Anda harus menggunakan trait Translatable dan mengatur kolom terjemahan seperti biasa (bahkan field sebagai terjemahan per locale).
+- Jika Anda menggunakan Spatie, pastikan model Anda menggunakan HasTranslations dan daftar field yang bisa diterjemahkan.
+
+## Pengujian
 
 ```bash
 composer test
 ```
 
-## Changelog
+## Perubahan & Kontribusi
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+Lihat CHANGELOG.md untuk perubahan terbaru.
+ Kontribusi sangat diterima. Silakan lihat CONTRIBUTING.md untuk panduan.
 
-## Contributing
+## Keamanan
 
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+Lindungi keamanan proyek dengan merujuk pada POLICY keamanan di .github/SECURITY.md.
 
-## Security Vulnerabilities
+## Credits & Lisensi
 
-Please review [our security policy](.github/SECURITY.md) on how to report security vulnerabilities.
+- jegex (pemilik paket)
+- All Contributors
 
-## Credits
-
-- [jegex](https://github.com/jegex)
-- [All Contributors](../../contributors)
-
-## License
-
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). See LICENSE.md for details.
