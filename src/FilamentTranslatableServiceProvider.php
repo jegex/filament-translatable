@@ -9,8 +9,6 @@ use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Filesystem\Filesystem;
-use Jegex\FilamentTranslatable\Commands\FilamentTranslatableCommand;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -27,21 +25,9 @@ class FilamentTranslatableServiceProvider extends PackageServiceProvider
          *
          * More info: https://github.com/spatie/laravel-package-tools
          */
-        $package->name(static::$name)
-            ->hasCommands($this->getCommands())
-            ->hasInstallCommand(function (InstallCommand $command): void {
-                $command
-                    ->publishConfigFile()
-                    ->publishMigrations()
-                    ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub('jegex/filament-translatable');
-            });
+        $package->name(static::$name);
 
         $configFileName = $package->shortName();
-
-        if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
-            $package->hasConfigFile();
-        }
 
         if (file_exists($package->basePath('/../resources/lang'))) {
             $package->hasTranslations();
@@ -51,9 +37,9 @@ class FilamentTranslatableServiceProvider extends PackageServiceProvider
             $package->hasViews(static::$viewNamespace);
         }
 
-        if (file_exists($package->basePath('/../resources/flags'))) {
+        if (file_exists($package->basePath('/../dist/flags'))) {
             $this->publishes([
-                __DIR__ . '/../resources/flags' => public_path('vendor/filament-translatable/flags'),
+                __DIR__ . '/../dist/flags' => public_path('vendor/filament-translatable/flags'),
             ], 'public');
         }
     }
@@ -89,7 +75,7 @@ class FilamentTranslatableServiceProvider extends PackageServiceProvider
     {
         return [
             // AlpineComponent::make('filament-translatable', __DIR__ . '/../resources/dist/components/filament-translatable.js'),
-            Css::make('filament-translatable-styles', __DIR__ . '/../resources/dist/filament-translatable.css'),
+            Css::make('filament-translatable-styles', __DIR__ . '/../dist/filament-translatable.css'),
             // Js::make('filament-translatable-scripts', __DIR__ . '/../resources/dist/filament-translatable.js'),
         ];
     }

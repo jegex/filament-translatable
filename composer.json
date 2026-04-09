@@ -31,55 +31,20 @@
         "filament/filament": "^4.3.1|^5.0",
         "spatie/laravel-package-tools": "^1.15.0"
     },
-    "require-dev": {
-        "astrotomic/laravel-translatable": "^11.17",
-        "driftingly/rector-laravel": "^2.3",
-        "larastan/larastan": "^3.0",
-        "laravel/pint": "^1.0",
-        "orchestra/testbench": "^9.0|^10.0",
-        "pestphp/pest": "^3.7|^4.0",
-        "pestphp/pest-plugin-laravel": "^3.0|^4.0",
-        "pestphp/pest-plugin-livewire": "^3.0|^4.0",
-        "rector/rector": "^2.4",
-        "spatie/laravel-translatable": "^6.13"
-    },
     "autoload": {
         "psr-4": {
-            "Jegex\\FilamentTranslatable\\": "src/",
-            "Jegex\\FilamentTranslatable\\Database\\Factories\\": "database/factories/"
+            "Jegex\\FilamentTranslatable\\": "src/"
         }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Jegex\\FilamentTranslatable\\Tests\\": "tests/src"
-        }
-    },
-    "scripts": {
-        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
-        "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint",
-        "refactor": "vendor/bin/rector",
-        "refactor:dry-run": "vendor/bin/rector --dry-run"
     },
     "extra": {
         "laravel": {
             "providers": [
                 "Jegex\\FilamentTranslatable\\FilamentTranslatableServiceProvider"
-            ],
-            "aliases": {
-                "FilamentTranslatable": "Jegex\\FilamentTranslatable\\Facades\\FilamentTranslatable"
-            }
+            ]
         }
     },
     "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "composer/package-versions-deprecated": true,
-            "pestphp/pest-plugin": true,
-            "phpstan/extension-installer": true
-        }
+        "sort-packages": true
     },
     "minimum-stability": "stable",
     "prefer-stable": true
