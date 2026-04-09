@@ -1,6 +1,5 @@
 <?php
 
-// translations for Jegex/FilamentTranslatable
 return [
-    //
+    'empty' => 'Empty :name',
 ];

@@ -133,7 +133,7 @@
             <div class="fi-sc-tabs-tab fi-active">
                 <x-filament::empty-state icon="heroicon-o-square-2-stack">
                     <x-slot name="heading">
-                        empty {{ $getName() }}
+                        {{ __('filament-translatable::translatable.empty', ['name' => $getName()]) }}
                     </x-slot>
                 </x-filament::empty-state>
             </div>
