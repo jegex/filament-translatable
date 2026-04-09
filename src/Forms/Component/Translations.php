@@ -31,29 +31,7 @@ class Translations extends Repeater
 
     protected ?string $defaultLocale = null;
 
-    /**
-     * @var null|Closure|array<string>|Collection<int,string>
-     */
-    protected null | Closure | array | Collection $exclude = [];
-
-    /**
-     * @var null|Closure|array<string,string>|Collection<string,string>
-     */
-    protected null | Closure | array | Collection $localeLabels = null;
-
-    protected Closure | bool $hasPrefixLocaleLabel = false;
-
-    protected Closure | bool $hasSuffixLocaleLabel = false;
-
-    protected ?Closure $fieldTranslatableLabel = null;
-
-    protected ?Closure $preformLocaleLabelUsing = null;
-
     protected int | Closure $activeTab = 1;
-
-    protected string | Closure | null $tabQueryStringKey = null;
-
-    protected string | Closure | null $livewireProperty = null;
 
     protected string | Closure | null $flagWidth = null;
 
@@ -160,16 +138,6 @@ class Translations extends Repeater
         return $this;
     }
 
-    /**
-     * @param  Closure|array<string>|Collection<int,string>  $exclude
-     */
-    public function exclude(Closure | array | Collection $exclude): static
-    {
-        $this->exclude = $exclude;
-
-        return $this;
-    }
-
     public function translationMode(TranslationMode | Closure | null $mode): static
     {
         $this->translationMode = $mode;
@@ -200,44 +168,6 @@ class Translations extends Repeater
     public function locales(Closure | array | Collection | null $locales): static
     {
         $this->locales = $locales;
-
-        return $this;
-    }
-
-    /**
-     * @param  Closure|array<string>|Collection<int,string>  $labels
-     */
-    public function localeLabels(Closure | array | Collection $labels): static
-    {
-        $this->localeLabels = $labels;
-
-        return $this;
-    }
-
-    public function prefixLocaleLabel(Closure | bool $condition = true): static
-    {
-        $this->hasPrefixLocaleLabel = $condition;
-
-        return $this;
-    }
-
-    public function suffixLocaleLabel(Closure | bool $condition = true): static
-    {
-        $this->hasSuffixLocaleLabel = $condition;
-
-        return $this;
-    }
-
-    public function fieldTranslatableLabel(?Closure $fieldTranslatableLabel = null): static
-    {
-        $this->fieldTranslatableLabel = $fieldTranslatableLabel;
-
-        return $this;
-    }
-
-    public function preformLocaleLabelUsing(?Closure $preformLocaleLabelUsing = null): static
-    {
-        $this->preformLocaleLabelUsing = $preformLocaleLabelUsing;
 
         return $this;
     }

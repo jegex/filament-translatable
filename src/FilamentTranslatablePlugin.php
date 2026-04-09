@@ -19,8 +19,6 @@ class FilamentTranslatablePlugin implements Plugin
 
     protected string | null | Closure $defaultLocale = null;
 
-    protected ?Closure $getLocaleLabelUsing = null;
-
     protected bool | Closure $displayFlagsInLocaleLabels = false;
 
     protected bool | Closure $displayNamesInLocaleLabels = true;
