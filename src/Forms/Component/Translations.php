@@ -78,16 +78,41 @@ class Translations extends Repeater
         ]);
 
         $this->loadStateFromRelationshipsUsing(static function (Translations $component, ?Model $record) {
+            if ($record === null) {
+                return;
+            }
+
+            $translations = [];
+
             if ($component->getTranslationMode() === TranslationMode::Astrotomic) {
                 $translations = $record?->getTranslationsArray();
             }
 
-            // todo: spatie loadStateFromRelationshipsUsing
+            if ($component->getTranslationMode() === TranslationMode::Spatie) {
+                // Pastikan record menggunakan HasTranslations trait
+                if (! method_exists($record, 'getTranslatableAttributes')) {
+                    return;
+                }
+
+                $translatableAttributes = $record->getTranslatableAttributes();
+
+                foreach ($translatableAttributes as $attribute) {
+                    $attributeTranslations = $record->getTranslations($attribute);
+
+                    foreach ($attributeTranslations as $locale => $value) {
+                        $translations[$locale][$attribute] = $value;
+                    }
+                }
+            }
 
             $component->state($translations);
         });
 
         $this->saveRelationshipsUsing(static function (Translations $component, ?Model $record, array $state) {
+            if ($record === null) {
+                return;
+            }
+
             if ($component->getTranslationMode() === TranslationMode::Astrotomic) {
                 foreach ($state as $locale => $items) {
                     foreach ($items as $key => $value) {
