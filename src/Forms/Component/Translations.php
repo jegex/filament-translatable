@@ -231,7 +231,7 @@ class Translations extends Repeater
         $parts = [];
 
         if ($this->hasFlagsInLocaleLabels() && $withFlag) {
-            $parts[] = '<img src="' . \asset($locale->flag) . '" style="width:' . $this->getFlagWidth() . ';max-width:' . $this->getFlagWidth() . '" alt="' . $locale->label . '" class="inline-block align-middle' . ($this->hasNamesInLocaleLabels() ? ' me-2' : '') . '" />';
+            $parts[] = '<img src="' . \asset($locale->flag) . '" style="width:' . $this->getFlagWidth() . ';max-width:' . $this->getFlagWidth() . '" alt="' . $locale->label . '" />';
         }
 
         if ($this->hasNamesInLocaleLabels()) {
@@ -241,7 +241,7 @@ class Translations extends Repeater
         $label = implode('', $parts) ?: $locale->code;
 
         if ($this->hasFlagsInLocaleLabels() && $withFlag) {
-            return new HtmlString('<div class="text-nowrap">' . $label . '</div>');
+            return new HtmlString('<div style="display:flex;flex-wrap:nowrap;gap:0.25rem">' . $label . '</div>');
         }
 
         return $label;
