@@ -1,0 +1,14 @@
+<?php
+
+namespace Jegex\FilamentTranslatable\Tests\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class AstrotomicPostTranslation extends Model
+{
+    protected $table = 'astrotomic_post_translations';
+
+    public $timestamps = false;
+
+    protected $fillable = ['title', 'content'];
+}

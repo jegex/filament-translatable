@@ -12,6 +12,7 @@ use Filament\Support\Enums\Width;
 use Filament\Support\Facades\FilamentIcon;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
@@ -76,8 +77,38 @@ class Translations extends Repeater
             $component->getDefaultLocale() => [],
         ]);
 
-        $this->afterStateHydrated(static function (Translations $component, ?array $rawState): void {
-            if (empty($rawState) && $component->getContainer()->getOperation() === 'create') {
+        $this->loadStateFromRelationshipsUsing(static function (Translations $component, ?Model $record) {
+            if ($component->getTranslationMode() === TranslationMode::Astrotomic) {
+                $translations = $record?->getTranslationsArray();
+            }
+
+            // todo: spatie loadStateFromRelationshipsUsing
+
+            $component->state($translations);
+        });
+
+        $this->saveRelationshipsUsing(static function (Translations $component, ?Model $record, array $state) {
+            if ($component->getTranslationMode() === TranslationMode::Astrotomic) {
+                foreach ($state as $locale => $items) {
+                    foreach ($items as $key => $value) {
+                        $record->translateOrNew($locale)->$key = $value;
+                    }
+                }
+            }
+
+            if ($component->getTranslationMode() === TranslationMode::Spatie) {
+                foreach ($state as $locale => $items) {
+                    foreach ($items as $key => $value) {
+                        $record->setTranslation($key, $locale, $value);
+                    }
+                }
+            }
+
+            $record->save();
+        });
+
+        $this->afterStateHydrated(static function (Translations $component, ?array $rawState, $operation): void {
+            if (empty($rawState) && $operation === 'create') {
                 $rawState = [$component->getDefaultLocale() => []];
             }
 
@@ -87,6 +118,8 @@ class Translations extends Repeater
         $this->mutateDehydratedStateUsing(static function (Translations $component, ?array $state): array {
             return $state;
         });
+
+        $this->dehydrated(false);
     }
 
     public function default(mixed $state): static
