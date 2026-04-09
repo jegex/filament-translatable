@@ -1,13 +1,35 @@
-.DS_Store
-.idea
-.phpunit.result.cache
-.vscode
-build
+```
+# Test-specific ignores
+tests/**/.phpunit.result.cache
+tests/**/.php_cs.cache
+
+# PHP related
+*.php~
+*.php.bak
+*.log
+*.tmp
+
+# Dependencies
+vendor/
 composer.lock
-coverage
-docs
-node_modules
-phpunit.xml
-phpstan.neon
-testbench.yaml
-vendor
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+```
