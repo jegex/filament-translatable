@@ -1,12 +1,14 @@
 <?php
 
+use Jegex\FilamentTranslatable\Tests\TestCase;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
 |--------------------------------------------------------------------------
 */
 
-uses(Jegex\FilamentTranslatable\Tests\TestCase::class)->in('Feature', 'Integration');
+uses(TestCase::class)->in('Feature', 'Integration');
 
 /*
 |--------------------------------------------------------------------------

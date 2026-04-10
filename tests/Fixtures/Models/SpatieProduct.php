@@ -8,7 +8,8 @@ use Spatie\Translatable\HasTranslations;
 
 class SpatieProduct extends Model
 {
-    use HasFactory, HasTranslations;
+    use HasFactory;
+    use HasTranslations;
 
     protected $table = 'spatie_products';
 

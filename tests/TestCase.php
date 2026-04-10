@@ -6,7 +6,6 @@ use Filament\FilamentServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Jegex\FilamentTranslatable\FilamentTranslatablePlugin;
 use Jegex\FilamentTranslatable\FilamentTranslatableServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;

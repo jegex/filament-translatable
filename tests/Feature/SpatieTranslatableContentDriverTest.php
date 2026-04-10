@@ -38,7 +38,7 @@ it('can make record with translations', function () {
 });
 
 it('does not change locale on setRecordLocale', function () {
-    $product = new SpatieProduct();
+    $product = new SpatieProduct;
 
     $result = $this->driver->setRecordLocale($product);
 
@@ -97,7 +97,7 @@ it('can get all translations for all locales', function () {
 });
 
 it('returns empty translations for unsaved model', function () {
-    $product = new SpatieProduct();
+    $product = new SpatieProduct;
 
     $translations = $this->driver->getAllTranslationsForAllLocales($product);
 

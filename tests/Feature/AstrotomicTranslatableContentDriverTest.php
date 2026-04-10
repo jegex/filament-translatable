@@ -30,7 +30,7 @@ it('can make record with fill data', function () {
 });
 
 it('can set record locale', function () {
-    $product = new AstrotomicProduct();
+    $product = new AstrotomicProduct;
 
     $result = $this->driver->setRecordLocale($product);
 

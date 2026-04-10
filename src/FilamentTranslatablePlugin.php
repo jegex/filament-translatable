@@ -6,9 +6,6 @@ use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\HtmlString;
-use Jegex\FilamentTranslatable\Dto\Locale;
 use Jegex\FilamentTranslatable\Enums\TranslationMode;
 
 class FilamentTranslatablePlugin implements Plugin

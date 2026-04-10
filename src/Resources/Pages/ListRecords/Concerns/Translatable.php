@@ -2,8 +2,8 @@
 
 namespace Jegex\FilamentTranslatable\Resources\Pages\ListRecords\Concerns;
 
-use Jegex\FilamentTranslatable\Resources\Concerns\HasActiveLocaleSwitcher;
 use Filament\Resources\Pages\ListRecords;
+use Jegex\FilamentTranslatable\Resources\Concerns\HasActiveLocaleSwitcher;
 use RuntimeException;
 
 trait Translatable

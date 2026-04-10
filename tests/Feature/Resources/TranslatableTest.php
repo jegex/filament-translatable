@@ -10,7 +10,8 @@ beforeEach(function () {
 });
 
 it('can get active table locale', function () {
-    $page = new class {
+    $page = new class
+    {
         use Translatable;
     };
 
@@ -20,7 +21,8 @@ it('can get active table locale', function () {
 });
 
 it('returns null for invalid schema locale', function () {
-    $page = new class {
+    $page = new class
+    {
         use Translatable;
 
         public function getTranslatableLocales(): array
@@ -35,7 +37,8 @@ it('returns null for invalid schema locale', function () {
 });
 
 it('returns locale for valid schema locale', function () {
-    $page = new class {
+    $page = new class
+    {
         use Translatable;
 
         public function getTranslatableLocales(): array
@@ -50,7 +53,8 @@ it('returns locale for valid schema locale', function () {
 });
 
 it('can get active actions locale', function () {
-    $page = new class {
+    $page = new class
+    {
         use Translatable;
     };
 

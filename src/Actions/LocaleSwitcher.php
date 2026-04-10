@@ -3,7 +3,6 @@
 namespace Jegex\FilamentTranslatable\Actions;
 
 use Filament\Actions\SelectAction;
-use Jegex\FilamentTranslatable\FilamentTranslatablePlugin;
 
 class LocaleSwitcher extends SelectAction
 {

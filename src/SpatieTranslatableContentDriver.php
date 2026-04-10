@@ -35,7 +35,7 @@ class SpatieTranslatableContentDriver implements TranslatableContentDriver
         $record = new $model;
 
         $translatableAttributes = [];
-        
+
         if (in_array(HasTranslations::class, class_uses_recursive($record))) {
             $translatableAttributes = $record->getTranslatableAttributes();
         }
@@ -72,7 +72,7 @@ class SpatieTranslatableContentDriver implements TranslatableContentDriver
     public function updateRecord(Model $record, array $data): Model
     {
         $translatableAttributes = [];
-        
+
         if (in_array(HasTranslations::class, class_uses_recursive($record))) {
             $translatableAttributes = $record->getTranslatableAttributes();
         }
