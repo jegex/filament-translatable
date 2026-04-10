@@ -27,7 +27,7 @@
         "astrotomic/laravel-translatable": "Alternative way for handling translations in Laravel using separate database tables."
     },
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "filament/filament": "^4.3.1|^5.0",
         "spatie/laravel-package-tools": "^1.15.0"
     },
