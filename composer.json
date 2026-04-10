@@ -31,9 +31,22 @@
         "filament/filament": "^4.3.1|^5.0",
         "spatie/laravel-package-tools": "^1.15.0"
     },
+    "require-dev": {
+        "orchestra/testbench": "^9.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "spatie/laravel-translatable": "^6.0",
+        "astrotomic/laravel-translatable": "^11.0",
+        "laravel/pint": "^1.0"
+    },
     "autoload": {
         "psr-4": {
             "Jegex\\FilamentTranslatable\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jegex\\FilamentTranslatable\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -44,8 +57,16 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "test": "pest",
+        "test-coverage": "pest --coverage",
+        "format": "pint"
+    }
 }
