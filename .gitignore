@@ -1,0 +1,47 @@
+# Dependencies
+/vendor/
+composer.lock
+
+# Testing
+/.phpunit.cache/
+/.coverage
+/build/
+
+# IDE & Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+
+# OS Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Environment
+.env
+.env.*.local
+.env.backup
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+
+# Build artifacts
+*.tar.gz
+*.zip
+
+# PHP CS Fixer
+.php-cs-fixer.cache
+
+# Pint
+.php-cs-fixer.php
+
+# Coverage HTML
+/coverage/
