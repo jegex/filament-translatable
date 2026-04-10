@@ -11,8 +11,7 @@ use Jegex\FilamentTranslatable\Tests\Fixtures\Models\AstrotomicProduct;
 use Jegex\FilamentTranslatable\Tests\Fixtures\Resources\Pages\CreateAstrotomicProduct;
 use Jegex\FilamentTranslatable\Tests\Fixtures\Resources\Pages\EditAstrotomicProduct;
 use Jegex\FilamentTranslatable\Tests\Fixtures\Resources\Pages\ListAstrotomicProducts;
-
-use function Pest\Livewire\livewire;
+use Livewire\Livewire;
 
 beforeEach(function () {
     FilamentTranslatablePlugin::make()
@@ -24,13 +23,13 @@ beforeEach(function () {
 it('can render list page', function () {
     AstrotomicProduct::factory()->count(5)->create();
 
-    livewire(ListAstrotomicProducts::class)
+    Livewire::test(ListAstrotomicProducts::class)
         ->assertSuccessful()
         ->assertCountTableRecords(5);
 });
 
 it('can render create page', function () {
-    livewire(CreateAstrotomicProduct::class)
+    Livewire::test(CreateAstrotomicProduct::class)
         ->assertSuccessful();
 });
 
@@ -40,7 +39,7 @@ it('can create product with translations', function () {
         'id' => ['name' => 'Produk Test', 'description' => 'Deskripsi Test'],
     ];
 
-    livewire(CreateAstrotomicProduct::class)
+    Livewire::test(CreateAstrotomicProduct::class)
         ->fillForm([
             'translations' => $translations,
             'price' => 100000,
@@ -58,7 +57,7 @@ it('can create product with translations', function () {
 it('can render edit page', function () {
     $product = AstrotomicProduct::factory()->create();
 
-    livewire(EditAstrotomicProduct::class, ['record' => $product->id])
+    Livewire::test(EditAstrotomicProduct::class, ['record' => $product->id])
         ->assertSuccessful();
 });
 
@@ -74,7 +73,7 @@ it('can edit product translations', function () {
         'id' => ['name' => 'Nama Baru', 'description' => 'Deskripsi Baru'],
     ];
 
-    livewire(EditAstrotomicProduct::class, ['record' => $product->id])
+    Livewire::test(EditAstrotomicProduct::class, ['record' => $product->id])
         ->fillForm([
             'translations' => $updatedTranslations,
             'price' => 75000,

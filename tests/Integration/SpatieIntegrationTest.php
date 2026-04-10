@@ -13,8 +13,7 @@ use Jegex\FilamentTranslatable\Tests\Fixtures\Resources\Pages\CreateSpatieProduc
 use Jegex\FilamentTranslatable\Tests\Fixtures\Resources\Pages\EditSpatieProduct;
 use Jegex\FilamentTranslatable\Tests\Fixtures\Resources\Pages\ListSpatieProducts;
 use Jegex\FilamentTranslatable\Tests\Fixtures\Resources\SpatieProductResource;
-
-use function Pest\Livewire\livewire;
+use Livewire\Livewire;
 
 beforeEach(function () {
     FilamentTranslatablePlugin::make()
@@ -26,13 +25,13 @@ beforeEach(function () {
 it('can render list page', function () {
     SpatieProduct::factory()->count(5)->create();
 
-    livewire(ListSpatieProducts::class)
+    Livewire::test(ListSpatieProducts::class)
         ->assertSuccessful()
         ->assertCountTableRecords(5);
 });
 
 it('can render create page', function () {
-    livewire(CreateSpatieProduct::class)
+    Livewire::test(CreateSpatieProduct::class)
         ->assertSuccessful();
 });
 
@@ -42,7 +41,7 @@ it('can create product with translations', function () {
         'id' => ['name' => 'Produk Test', 'description' => 'Deskripsi Test'],
     ];
 
-    livewire(CreateSpatieProduct::class)
+    Livewire::test(CreateSpatieProduct::class)
         ->fillForm([
             'translations' => $translations,
             'price' => 100000,
@@ -60,7 +59,7 @@ it('can create product with translations', function () {
 it('can render edit page', function () {
     $product = SpatieProduct::factory()->create();
 
-    livewire(EditSpatieProduct::class, ['record' => $product->id])
+    Livewire::test(EditSpatieProduct::class, ['record' => $product->id])
         ->assertSuccessful();
 });
 
@@ -75,7 +74,7 @@ it('can edit product translations', function () {
         'id' => ['name' => 'Nama Baru', 'description' => 'Deskripsi Baru'],
     ];
 
-    livewire(EditSpatieProduct::class, ['record' => $product->id])
+    Livewire::test(EditSpatieProduct::class, ['record' => $product->id])
         ->fillForm([
             'translations' => $updatedTranslations,
             'price' => 75000,
@@ -94,7 +93,7 @@ it('can edit product translations', function () {
 it('can delete product', function () {
     $product = SpatieProduct::factory()->create();
 
-    livewire(EditSpatieProduct::class, ['record' => $product->id])
+    Livewire::test(EditSpatieProduct::class, ['record' => $product->id])
         ->callAction(\Filament\Actions\DeleteAction::class)
         ->assertHasNoFormErrors();
 
@@ -109,7 +108,7 @@ it('can search products in table', function () {
 
     SpatieProduct::factory()->count(3)->create();
 
-    livewire(ListSpatieProducts::class)
+    Livewire::test(ListSpatieProducts::class)
         ->searchTable('Unique Product Name')
         ->assertCanSeeTableRecords($products)
         ->assertCountTableRecords(2);
@@ -120,7 +119,7 @@ it('can sort products in table', function () {
     SpatieProduct::factory()->state(['price' => 10000])->create();
     SpatieProduct::factory()->state(['price' => 20000])->create();
 
-    livewire(ListSpatieProducts::class)
+    Livewire::test(ListSpatieProducts::class)
         ->sortTable('price')
         ->assertCanSeeTableRecords(
             SpatieProduct::orderBy('price')->get(),
