@@ -69,7 +69,7 @@ jobs:
       - name: Install dependencies
         run: |
           composer require "laravel/framework:13.*" "orchestra/testbench:11.*" --no-interaction --no-update
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --ignore-platform-reqs
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
       - name: Execute tests
-        run: vendor/bin/pest || echo "Laravel 13 test failed (experimental)"
+        run: vendor/bin/pest
