@@ -2,6 +2,9 @@
 /vendor/
 composer.lock
 
+# AI
+/.qwen
+
 # Testing
 /.phpunit.cache/
 /.coverage
