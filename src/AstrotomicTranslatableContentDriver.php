@@ -84,11 +84,12 @@ class AstrotomicTranslatableContentDriver implements TranslatableContentDriver
 
         $databaseConnection->getDriverName();
 
-        return $query->{$whereClause}(
-            generate_search_column_expression($column, $isCaseInsensitivityForced, $databaseConnection),
-            'like',
-            "%{$search}%",
-        );
+        return $query->whereHas('translations', fn ($q) => $q->whereLocale($this->activeLocale)
+            ->{$whereClause}(
+                generate_search_column_expression($column, $isCaseInsensitivityForced, $databaseConnection),
+                'like',
+                "%{$search}%",
+            ));
     }
 
     protected static function mutateTranslatableData(Model | Translatable $record, array $data = []): array
