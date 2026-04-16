@@ -31,7 +31,7 @@ class Translations extends Repeater
 
     protected ?string $defaultLocale = null;
 
-    protected int | Closure $activeTab = 1;
+    protected int | string | Closure $activeTab = 1;
 
     protected string | Closure | null $flagWidth = null;
 
@@ -115,6 +115,8 @@ class Translations extends Repeater
                 $rawState = [$component->getDefaultLocale() => []];
             }
 
+            $rawState = $component->sortWithDefaultLocaleFirst($rawState ?? []);
+
             $component->rawState($rawState);
         });
 
@@ -136,6 +138,20 @@ class Translations extends Repeater
         $this->shouldMergeHydratedDefaultStateWithItemsStateAfterStateHydrated = true;
 
         return $this;
+    }
+
+    protected function sortWithDefaultLocaleFirst(array $items): array
+    {
+        $defaultLocale = $this->getDefaultLocale();
+
+        if (! $defaultLocale || ! isset($items[$defaultLocale])) {
+            return $items;
+        }
+
+        $defaultItem = $items[$defaultLocale];
+        unset($items[$defaultLocale]);
+
+        return array_merge([$defaultLocale => $defaultItem], $items);
     }
 
     public function translationMode(TranslationMode | Closure | null $mode): static
@@ -182,13 +198,34 @@ class Translations extends Repeater
         return $this;
     }
 
-    public function getActiveTab(): int | Closure | null | string
+    public function activeTab(int | string | Closure $key): static
     {
+        $this->activeTab = $key;
+
+        return $this;
+    }
+
+    public function getActiveTab(): int | string | null
+    {
+        $defaultLocale = $this->getDefaultLocale();
+
         if ($this->getItemsCount()) {
-            return collect($this->getItems())->keys()->first();
+            $items = $this->getItems();
+
+            $activeTab = $this->evaluate($this->activeTab);
+
+            if (is_string($activeTab) && array_key_exists($activeTab, $items)) {
+                return $activeTab;
+            }
+
+            if ($defaultLocale && array_key_exists($defaultLocale, $items)) {
+                return $defaultLocale;
+            }
+
+            return collect($items)->keys()->first();
         }
 
-        return $this->evaluate($this->activeTab, ['locales' => $this->getLocales()]);
+        return $this->evaluate($this->activeTab) ?? $defaultLocale;
     }
 
     /**
@@ -204,26 +241,11 @@ class Translations extends Repeater
 
         $preparedLocales = [];
 
-        foreach ($locales as $key => $value) {
-            // If the key is an integer, create a new Locale with the code only
-            if (is_int($key) && is_string($value)) {
-                $preparedLocales[$key] = new Locale($value);
-
-                continue;
-            }
-
-            // If the key is a string, create a new Locale with the key as code and value as label
-            if (is_string($key)) {
-                $preparedLocales[$key] = new Locale($key, $value);
-
-                continue;
-            }
-
-            // Otherwise, treat the value as a Locale
-            $preparedLocales[] = $value;
+        foreach ($locales as $code => $label) {
+            $preparedLocales[$code] = new Locale($code, $label);
         }
 
-        return $preparedLocales;
+        return $this->sortWithDefaultLocaleFirst($preparedLocales);
     }
 
     public function getLocaleLabel(Locale $locale, bool $withFlag = true): string | Htmlable
@@ -355,6 +377,7 @@ class Translations extends Repeater
                 $component->getChildSchema($locale ?? array_key_last($items))->fill();
                 $component->collapsed(false, shouldMakeComponentCollapsible: false);
                 $component->callAfterStateUpdated();
+                $component->activeTab($locale);
                 $component->shouldPartiallyRenderAfterActionsCalled() ? $component->partiallyRender() : null;
             });
     }

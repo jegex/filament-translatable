@@ -40,13 +40,9 @@
                 ])
         }}
         x-data="{
-            activeTab: '',
+            activeTab: @js($getActiveTab),
             isScrollable: @js($isScrollable)
         }"
-        x-init="
-            const keys = Object.keys(@js($items));
-            activeTab = keys[keys.length - 1] ?? '';
-        "
     >
 
         <x-filament::tabs

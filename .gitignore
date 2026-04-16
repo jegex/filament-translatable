@@ -48,3 +48,4 @@ logs/
 
 # Coverage HTML
 /coverage/
+/.qwen/
