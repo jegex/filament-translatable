@@ -83,6 +83,7 @@ class Translations extends Repeater
                 }
             }
 
+            $translations = $component->sortWithDefaultLocaleFirst($translations ?? []);
             $component->state($translations);
         });
 
